@@ -16,8 +16,8 @@ const ApartmentRegistrationForm = () => {
   const [LandDetails, setLandDetails] = React.useState({
     address: "",
     areaSize: "",
-    noRooms : "",
-    parking : false,
+    noRooms: "",
+    parking: "",
     unit: "",
     description: "",
     price: "",
@@ -104,7 +104,7 @@ const ApartmentRegistrationForm = () => {
       console.log(LandDetails);
       const { contract } = globalState;
       const { signer } = globalState;
-      
+
       const data = JSON.stringify({
         pinataContent: {
           LandDetails
@@ -134,11 +134,11 @@ const ApartmentRegistrationForm = () => {
           "https://gateway.pinata.cloud/ipfs/QmS397wrvErhY55fEbeMY7PCQXUGi5iiiYSqaLdGRrRh6u"
         );
         const receipt = await transaction.wait();
-        
+
         const num = await contract.getToken();
 
         console.log(num)
-        
+
         toast.success("Successfully Registered");
         // dispatch(setIsLoggedIn());
       } catch (error) {
@@ -150,69 +150,69 @@ const ApartmentRegistrationForm = () => {
 
   return (
     <div className="w-[100%] h-[100%]">
-      <Header/>
-    <div className="flex justify-center bg-gray-100 w-[90%] h-[600px] m-auto mt-[80px]">
-      <div class="w-[60%] bg-cover" style={{backgroundImage: `url(${registImage})`}}></div>
-      <div className="bg-white w-[40%] p-[40px] rounded-lg shadow-md ">
-        <h2 className="text-xl relative font-semibold text-gray-700 text-center mb-4">
-          List a plot of Land
-        </h2>
+      <Header />
+      <div className="flex justify-center bg-gray-100 w-[90%] h-[600px] m-auto mt-[80px]">
+        <div class="w-[60%] bg-cover" style={{ backgroundImage: `url(${registImage})` }}></div>
+        <div className="bg-white w-[40%] p-[40px] rounded-lg shadow-md ">
+          <h2 className="text-xl relative font-semibold text-gray-700 text-center mb-4">
+            List a plot of Land
+          </h2>
 
-        <form className="space-y-4">
-          <div className="flex flex-col w-full justify-between gap-[50px]">
-            <div className="w-full">
-              <div className="flex flex-col">
-                <div className="w-full">
+          <form className="space-y-4">
+            <div className="flex flex-col w-full justify-between gap-[50px]">
+              <div className="w-full">
+                <div className="flex flex-col">
+                  <div className="w-full">
+                    <input
+                      type="number"
+                      id="farmer-name"
+                      name="areaSize"
+                      placeholder="Enter Land AreaSize"
+                      value={LandDetails.areaSize}
+                      onChange={handleChange}
+                      className="form-input mt-1 mb-[20px] indent-1.5 h-[40px] mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                      required
+                    />
+                  </div>
+                  <div className="border  flex items-center w-full border-2 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 visited:border-none">
+                    <select
+                      className="border-none w-[100%]  p-[8px] indent-1.5 h-[40px]"
+                      onChange={handleChange}
+                      name="unit"
+                      value={LandDetails.unit}
+                    >
+                      <option value="">Select unit</option>
+                      <option value={"Gundhas"}>Gundhas</option>
+                      <option value={"Acres"}>Acres</option>
+                      <option value={"Hectares"}>Hectares</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex mt-[10px]">
                   <input
-                    type="number"
-                    id="farmer-name"
-                    name="areaSize"
-                    placeholder="Enter Land AreaSize"
-                    value={LandDetails.areaSize}
+                    type="text"
+                    name="address"
+                    placeholder="Enter Address of the Plot"
+                    value={LandDetails.address}
                     onChange={handleChange}
-                    className="form-input mt-1 mb-[20px] indent-1.5 h-[40px] mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                    className="form-input mr-[10px] mt-1 block w-full border indent-1.5 h-[40px] rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     required
                   />
                 </div>
-                <div className="border  flex items-center w-full border-2 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 visited:border-none">
-                  <select
-                    className="border-none w-[100%]  p-[8px] indent-1.5 h-[40px]"
+                <div className="flex justify-between mt-[10px]">
+                  {/* DropDown Here */}
+                  <input
+                    type="text"
+                    name="description"
+                    placeholder="Description for the Land(Geography)"
+                    value={LandDetails.description}
                     onChange={handleChange}
-                    name="unit"
-                    value={LandDetails.unit}
-                  >
-                    <option value="">Select unit</option>
-                    <option value={"Gundhas"}>Gundhas</option>
-                    <option value={"Acres"}>Acres</option>
-                    <option value={"Hectares"}>Hectares</option>
-                  </select>
+                    className="form-input mt-1 mr-[10px] block w-full border rounded-md indent-1.5 h-[40px] border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                    required
+                  />
+                  {/* dropdown here instead of text */}
                 </div>
-              </div>
-              <div className="flex mt-[10px]">
-                <input
-                  type="text"
-                  name="address"
-                  placeholder="Enter Address of the Plot"
-                  value={LandDetails.address}
-                  onChange={handleChange}
-                  className="form-input mr-[10px] mt-1 block w-full border indent-1.5 h-[40px] rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  required
-                />
-              </div>
-              <div className="flex justify-between mt-[10px]">
-                {/* DropDown Here */}
-                <input
-                  type="text"
-                  name="description"
-                  placeholder="Description for the Land(Geography)"
-                  value={LandDetails.description}
-                  onChange={handleChange}
-                  className="form-input mt-1 mr-[10px] block w-full border rounded-md indent-1.5 h-[40px] border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  required
-                />
-                {/* dropdown here instead of text */}
-              </div>
-              <div className="w-full">
+                <div className="w-full mt-[10px]">
                   <input
                     type="number"
                     id="farmer-name"
@@ -224,64 +224,92 @@ const ApartmentRegistrationForm = () => {
                     required
                   />
                 </div>
-              <div className="flex justify-between mt-[10px]">
-                {/* DropDown Here */}
-                <input
-                  type="number"
-                  name="price"
-                  placeholder="Price"
-                  value={LandDetails.price}
-                  onChange={handleChange}
-                  className="form-input mt-1 mr-[10px] block w-full border rounded-md border-gray-300 indent-1.5 h-[40px] focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  required
-                />
-                {/* dropdown here instead of text */}
-              </div>
-              <div className="flex mt-[10px]">
-                <label for="link">Add images: </label>
-                <input
-                  type="file"
-                  name="landImages"
-                  id="link"
-                  multiple="multiple"
-                  className="form-control form-control-lg indent-1.5 h-[40px]"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-              </div>
-              {LandDetails.images.length > 0 && (
-                <div>
-                  <h2>Selected Images:</h2>
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    {LandDetails.images.map((image, index) => (
-                      <img
-                        key={index}
-                        src={URL.createObjectURL(image)}
-                        alt={`Preview ${index + 1}`}
-                        style={{
-                          width: "150px",
-                          height: "150px",
-                          marginRight: "10px",
-                        }}
+
+                <div className="w-full mt-[10px]">
+                  Parking Available :
+                  <div className="flex ">
+                    <label className="mr-[10px]">
+                      <input
+                        type="radio"
+                        name="parking"
+                        value="yes"
+                        checked={LandDetails.parking === 'yes'}
+                        onChange={handleChange}
                       />
-                    ))}
+                      Yes
+                    </label>
+                   
+                    <label>
+                      <input
+                        type="radio"
+                        name="parking"
+                        value="no"
+                        checked={LandDetails.parking === 'no'}
+                        onChange={handleChange}
+                      />
+                      No
+                    </label>
                   </div>
                 </div>
-              )}
+
+                <div className="flex justify-between mt-[10px]">
+                  {/* DropDown Here */}
+                  <input
+                    type="number"
+                    name="price"
+                    placeholder="Price"
+                    value={LandDetails.price}
+                    onChange={handleChange}
+                    className="form-input mt-1 mr-[10px] block w-full border rounded-md border-gray-300 indent-1.5 h-[40px] focus:border-blue-500 focus:ring focus:ring-blue-200"
+                    required
+                  />
+                  {/* dropdown here instead of text */}
+                </div>
+                <div className="flex mt-[10px]">
+                  <label for="link">Add images: </label>
+                  <input
+                    type="file"
+                    name="landImages"
+                    id="link"
+                    multiple="multiple"
+                    className="form-control form-control-lg indent-1.5 h-[40px]"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                </div>
+                {LandDetails.images.length > 0 && (
+                  <div>
+                    <h2>Selected Images:</h2>
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      {LandDetails.images.map((image, index) => (
+                        <img
+                          key={index}
+                          src={URL.createObjectURL(image)}
+                          alt={`Preview ${index + 1}`}
+                          style={{
+                            width: "150px",
+                            height: "150px",
+                            marginRight: "10px",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="text-center">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none w-full indent-1.5 h-[40px] focus:ring focus:ring-blue-200"
-              onClick={submitForm}
-            >
-              Register
-            </button>
-          </div>
-        </form>
+            <div className="text-center">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none w-full indent-1.5 h-[40px] focus:ring focus:ring-blue-200"
+                onClick={submitForm}
+              >
+                Register
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
     </div>
 
   );

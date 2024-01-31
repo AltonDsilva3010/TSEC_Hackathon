@@ -1,10 +1,13 @@
 
 import { ethers } from "ethers";
 import RegistrationABI from "../../contract/UserRegistration.json"
-import { setStateDetails } from "../ReduxStore/slices/globalStateSlice";
+import { setStateDetails , setIsLoggedIn } from "../ReduxStore/slices/globalStateSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-export const connectWallet = async (dispatch) => {
-    const ContractAddress = "0x896b3098f4bDe0586dd352e3a1B9Aa2c978C8DF9";
+
+export const connectWallet = async (dispatch , globalState) => {
+
+    const ContractAddress = "0xAFd2e7A378862801696F04F7A0a65A9DE7573FFa";
     const ContractABI = RegistrationABI.abi;
     try {
       let provider = new ethers.BrowserProvider(window.ethereum);
@@ -16,6 +19,12 @@ export const connectWallet = async (dispatch) => {
       );
       console.log(provider,signer,contract)
       dispatch(setStateDetails({provider,signer,contract}))
+
+      const transaction = await contract.getUserBoolean(signer);
+      console.log(transaction)
+      dispatch(setIsLoggedIn())
+      console.log(globalState)
+
       
     } catch (error) {
       console.log(error);

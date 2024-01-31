@@ -14,16 +14,27 @@ export const routers = [
     {
       path : "/user/dashboard",
       element : <UserDashboard/>
-    }
+    },
+    {
+      path : "/register",
+      element : <RegistrationPage/>,
+      children : [
+        {
+          index : true,
+          element : <RegistrationForm/>
+        },
+      ],
+    } 
   ]
-  },{
-    path : "/register",
-    element : <RegistrationPage/>,
-    children : [
-      {
-        index : true,
-        element : <RegistrationForm/>
-      },
-    ],
   },
+  // {
+  //   path : "/register",
+  //   element : <RegistrationPage/>,
+  //   children : [
+  //     {
+  //       index : true,
+  //       element : <RegistrationForm/>
+  //     },
+  //   ],
+  // },
 ];

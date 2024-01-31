@@ -22,10 +22,14 @@ export const globalStateSlice = createSlice({
         },
         getOwnerAddress : (state,action)=>{
             return state.contract.target
+        },
+        setIsLoggedIn : (state,action)=>{
+            state.isLoggedIn = true
+            console.log(state)
         }
     }
 })
 
-export const {setStateDetails,getOwnerAddress} = globalStateSlice.actions
+export const {setStateDetails,getOwnerAddress,setIsLoggedIn} = globalStateSlice.actions
 
 export default globalStateSlice.reducer

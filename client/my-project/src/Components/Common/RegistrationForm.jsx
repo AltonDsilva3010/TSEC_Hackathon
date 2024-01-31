@@ -4,10 +4,11 @@ import { connectWallet } from "../../utils/functions";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../../Apis/UserApi";
 import { useDispatch, useSelector } from "react-redux";
+import { setIsLoggedIn } from "../../ReduxStore/slices/globalStateSlice";
 const RegistrationForm = () => {
-  // const globalState = useSelector((state) => state.globlaStateSlice);
-  // console.log("GLOBAL IN REGISTRAION ", globalState);
-
+  const globalState = useSelector((state) => state.globlaStateSlice);
+  console.log("GLOBAL IN REGISTRAION ", globalState);
+  const dispatch = useDispatch()
   const navigator = useNavigate();
   const [userDetails, setUserDetails] = React.useState({
     fullName: "",
@@ -15,7 +16,6 @@ const RegistrationForm = () => {
     mobileNumber: "",
     address: "",
     pinCode: "",
-    walletAddress: "",
   });
 
   const [otpVerify, setOtpVerify] = React.useState(true);
@@ -57,7 +57,7 @@ const RegistrationForm = () => {
 
     return false;
   };
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
 
     if (isBtnDisabled()) {
@@ -76,8 +76,21 @@ const RegistrationForm = () => {
       formData.append("phone", userDetails.mobileNumber);
       formData.append("metamaskWalletAddress", userDetails.walletAddress);
       formData.append("pincode", userDetails.pinCode);
+
+      const {contract} = globalState
+      const {signer} = globalState
+      console.log(contract)
+      try {
+        const transaction = await contract.registerUser(userDetails.fullName , userDetails.email , userDetails.mobileNumber , userDetails.address  , userDetails.pinCode);
+      const rc = await transaction.wait();
+      console.log("RC",rc)
+      toast.success("Successfully Registered")
+      dispatch(setIsLoggedIn())
+      } catch (error) {
+        toast.error("Something Went Wrong . Please Try Again ")
+      }
+      
       // addUser(formData, globalState, navigator);
-      console.log(formData);
     }
   };
 
@@ -171,14 +184,14 @@ const RegistrationForm = () => {
                     className="form-input mt-1 block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     required
                   />
-                  <button
+                  {/* <button
                     className="bg-blue-500 text-white rounded-md ml-[10px] h-full"
                     onClick={handleOtpVerificationBtnClick}
                   >
                     Verify Number
-                  </button>
+                  </button> */}
                 </div>
-                {otpVerify && (
+                {/* {otpVerify && (
                   <div className="flex justify-between items-center mt-[10px]">
                     <input
                       type="text"
@@ -195,9 +208,9 @@ const RegistrationForm = () => {
                       Submit
                     </button>
                   </div>
-                )}
+                )} */}
               </div>
-              <div>
+              {/* <div>
                 <label
                   htmlFor="contract-address"
                   className="block text-sm font-medium text-gray-600"
@@ -220,7 +233,7 @@ const RegistrationForm = () => {
                 >
                   Connect Wallet
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="text-center">

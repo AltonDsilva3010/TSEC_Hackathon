@@ -1,13 +1,16 @@
 import React from 'react'
 import HeroImage from "../../assets/images/HeroImage_1.jpg"
 import Logo from "../../assets/images/logo.jpg"
-import { useSelector } from 'react-redux'
+import { useSelector , useDispatch} from 'react-redux'
 import {getOwnerAddress} from "../../ReduxStore/slices/globalStateSlice"
+import {NavLink} from 'react-router-dom'
+import {connectWallet} from '../../utils/functions'
 
 const Navbar = () => {
-
+    const globalState = useSelector(state => state.globlaStateSlice)
     const address = useSelector(state => state.globlaStateSlice.address)
-    
+    const dispatch = useDispatch()
+
     return (
         <div className="none">
             <div className='p-[10px] w-full leading-3'>
@@ -19,12 +22,12 @@ const Navbar = () => {
                             <h1 className='font-bold text-2xl'>Estate Chain</h1>
                     </div>
                     <div>
-                        <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2'>
+                        <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={() => connectWallet(dispatch , globalState)}>
                         {address ? address.slice(0,10) + "....." + address.slice(38,42) : "Connect Wallet"}
                         </button>
-                        <button className='font-black hover:custom-button text-xl p-[5px] border-b-2'>
+                        <NavLink to ='/register' className='font-black hover:custom-button text-xl p-[5px] border-b-2'>
                             Register
-                        </button>
+                        </NavLink>
                     </div>
                 </div>
             </div>

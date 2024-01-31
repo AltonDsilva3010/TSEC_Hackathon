@@ -108,10 +108,10 @@ const LandRegisterForm = () => {
       console.log(LandDetails);
       const { contract } = globalState;
       const { signer } = globalState;
-      
+
       const data = JSON.stringify({
         pinataContent: {
-          LandDetails
+          LandDetails,
         },
         pinataMetadata: {
           name: "metadata.json",
@@ -129,20 +129,18 @@ const LandRegisterForm = () => {
         },
       });
 
-      console.log(response.data);
-
-      console.log(contract);
+      console.log(response);
       try {
         const transaction = await contract.mint(
           signer,
-          "https://gateway.pinata.cloud/ipfs/QmS397wrvErhY55fEbeMY7PCQXUGi5iiiYSqaLdGRrRh6u"
+          `https://gateway.pinata.cloud/ipfs/${response.data.IPFSHashes}`
         );
         const receipt = await transaction.wait();
-        
+
         const num = await contract.getToken();
 
-        console.log(num)
-        
+        console.log(parseInt(num.toString()));
+
         toast.success("Successfully Registered");
         // dispatch(setIsLoggedIn());
       } catch (error) {

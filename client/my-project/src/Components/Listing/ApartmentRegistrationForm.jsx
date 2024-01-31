@@ -16,13 +16,13 @@ const ApartmentRegistrationForm = () => {
   const [LandDetails, setLandDetails] = React.useState({
     address: "",
     areaSize: "",
+    noRooms : "",
+    parking : false,
     unit: "",
     description: "",
     price: "",
     images: "",
   });
-
-  const [IPFSHashes, setIPFSHashes] = useState([]);
 
   const isBtnDisabled = () => {
     if (
@@ -81,7 +81,8 @@ const ApartmentRegistrationForm = () => {
         });
 
         ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
-        setIPFSHashes((prevHashes) => [...prevHashes, ImgHash]);
+
+        LandDetails.images = ImgHash
         console.log(ImgHash);
       } catch (error) {
         console.log(error);
@@ -99,12 +100,6 @@ const ApartmentRegistrationForm = () => {
       return;
     } else {
       // console.log(userDetails)
-      let formData = new FormData();
-      formData.append("addressland", LandDetails.address);
-      formData.append("areaSize", LandDetails.areaSize);
-      formData.append("description", LandDetails.description);
-      formData.append("price", LandDetails.price);
-      formData.append("images", IPFSHashes);
       // addUser(formData, globalState, navigator);
       console.log(LandDetails);
       const { contract } = globalState;
@@ -156,7 +151,7 @@ const ApartmentRegistrationForm = () => {
   return (
     <div className="w-[100%] h-[100%]">
       <Header/>
-    <div className="flex justify-center bg-gray-100 w-[90%] h-[500px] m-auto mt-[80px]">
+    <div className="flex justify-center bg-gray-100 w-[90%] h-[600px] m-auto mt-[80px]">
       <div class="w-[60%] bg-cover" style={{backgroundImage: `url(${registImage})`}}></div>
       <div className="bg-white w-[40%] p-[40px] rounded-lg shadow-md ">
         <h2 className="text-xl relative font-semibold text-gray-700 text-center mb-4">
@@ -217,6 +212,18 @@ const ApartmentRegistrationForm = () => {
                 />
                 {/* dropdown here instead of text */}
               </div>
+              <div className="w-full">
+                  <input
+                    type="number"
+                    id="farmer-name"
+                    name="areaSize"
+                    placeholder="Enter Number of Rooms"
+                    value={LandDetails.noRooms}
+                    onChange={handleChange}
+                    className="form-input mt-1 mb-[20px] indent-1.5 h-[40px] mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                    required
+                  />
+                </div>
               <div className="flex justify-between mt-[10px]">
                 {/* DropDown Here */}
                 <input

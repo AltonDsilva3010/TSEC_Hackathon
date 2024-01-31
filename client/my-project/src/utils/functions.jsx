@@ -4,7 +4,7 @@ import RegistrationABI from "../../contract/UserRegistration.json"
 import { setStateDetails } from "../ReduxStore/slices/globalStateSlice";
 
 export const connectWallet = async (dispatch) => {
-    const ContractAddress = "0xCFBf4d37dACAD90c8A57F3eBb4eccA05CcdA9119";
+    const ContractAddress = "0x896b3098f4bDe0586dd352e3a1B9Aa2c978C8DF9";
     const ContractABI = RegistrationABI.abi;
     try {
       let provider = new ethers.BrowserProvider(window.ethereum);

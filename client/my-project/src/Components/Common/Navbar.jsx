@@ -20,7 +20,7 @@ const Navbar = () => {
                     </div>
                     <div>
                         <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2'>
-                            Connect Wallet
+                        {address ? address.slice(0,10) + "....." + address.slice(38,42) : "Connect Wallet"}
                         </button>
                         <button className='font-black hover:custom-button text-xl p-[5px] border-b-2'>
                             Register

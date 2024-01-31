@@ -2,7 +2,6 @@ import App from "../App";
 import  HomePage from "../Components/HomePage/HomePage";
 import userDashboard from "../Components/UserDashboard/UserDashboard";
 import RegistrationForm from "../Components/Common/RegistrationForm";
-import HomePage from "../Components/HomePage/HomePage";
 import RegistrationPage from "../Components/Common/RegistrationPage";
 export const routers = [
   {
@@ -17,5 +16,14 @@ export const routers = [
       element : <userDashboard/>
     }
   ]
+  },{
+    path : "/register",
+    element : <RegistrationPage/>,
+    children : [
+      {
+        index : true,
+        element : <RegistrationForm/>
+      },
+    ],
   },
 ];

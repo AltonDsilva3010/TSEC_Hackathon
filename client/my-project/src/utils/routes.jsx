@@ -5,6 +5,7 @@ import RegistrationForm from "../Components/Common/RegistrationForm";
 import RegistrationPage from "../Components/Common/RegistrationPage";
 import ListingPage from "../Components/Listing/ListingPage";
 import LandRegisterForm from "../Components/Listing/LandRegisterForm";
+import ApartmentRegistrationForm from "../Components/Listing/ApartmentRegistrationForm";
 export const routers = [
   {
     path: "/",
@@ -35,6 +36,16 @@ export const routers = [
           {
             index: true,
             element: <LandRegisterForm />,
+          },
+        ],
+      },
+      {
+        path: "/listingapt",
+        element: <ListingPage />,
+        children: [
+          {
+            index: true,
+            element: <ApartmentRegistrationForm />,
           },
         ],
       },

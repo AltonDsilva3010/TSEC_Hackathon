@@ -1,14 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Hind:wght@300&family=Montserrat&family=Poppins:wght@300;400;500;600;700&family=Roboto&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer components{
-    .custom-button{
-        background-color: black;
-        border-radius: 10px;
-        padding: 8px;
-        color: white;
-        border: none;
-    }
-    
+@layer components {
+  .custom-button {
+    background-color: black;
+    border-radius: 10px;
+    padding: 8px;
+    color: white;
+    border: none;
+    padding: 15px;
+  }
+
+  .none {
+    background-image: url("./assets/images/HeroImage_1.jpg");
+    overflow: none;
+    height: 600px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0px -200px;
+    font-family: "Roboto";
+  }
 }

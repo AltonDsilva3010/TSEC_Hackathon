@@ -5,27 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { addUser } from "../../Apis/UserApi";
 import { useDispatch, useSelector } from "react-redux";
 const RegistrationForm = () => {
-  const globalState = useSelector((state) => state.globlaStateSlice);
-  console.log("GLOBAL IN REGISTRAION ", globalState);
+  // const globalState = useSelector((state) => state.globlaStateSlice);
+  // console.log("GLOBAL IN REGISTRAION ", globalState);
 
   const navigator = useNavigate();
-  const [farmerDetails, setFarmerDetails] = React.useState({
+  const [userDetails, setUserDetails] = React.useState({
     fullName: "",
-    gender: "",
-    dob: "",
-    mobileNumber: "",
     email: "",
-    state: "",
-    district: "",
+    mobileNumber: "",
+    address: "",
     pinCode: "",
-    aadharCardNumber: "",
-    panCardNumber: "",
     walletAddress: "",
-    aadharCardImage: "",
   });
 
-  const [previewAadhar, setPreviewAadhar] = React.useState();
-  const [previewUserPhoto, setPreviewUserPhoto] = React.useState();
   const [otpVerify, setOtpVerify] = React.useState(true);
   const [otp, setOtp] = React.useState("");
 
@@ -43,90 +35,59 @@ const RegistrationForm = () => {
   };
   const handleOtpVerificationBtnClick = (e) => {
     e.preventDefault();
-    console.log(farmerDetails.mobileNumber);
-    if (farmerDetails.mobileNumber != "") {
+    console.log(userDetails.mobileNumber);
+    if (userDetails.mobileNumber != "") {
       setOtpVerify((prev) => !prev);
     } else {
       toast.error("Enter Mobile Number First ");
     }
   };
+
+  const isBtnDisabled = () => {
+    if (
+      userDetails.mobileNumber === "" ||
+      userDetails.address === "" ||
+      userDetails.pinCode === "" ||
+      userDetails.fullName === "" ||
+      userDetails.walletAddress === "" ||
+      userDetails.email === ""
+    ) {
+      return true;
+    }
+
+    return false;
+  };
   const submitForm = (e) => {
     e.preventDefault();
+
     if (isBtnDisabled()) {
-      toast("Please Fill Form Completely");
+      console.log("Inside submit");
+      toast.error("Please Fill Form Completely");
       return;
     } else if (!otpVerify) {
       toast("Please Verify Mobile First");
       return;
     } else {
-      // console.log(farmerDetails)
+      // console.log(userDetails)
       let formData = new FormData();
-      const address = {
-        state: farmerDetails.state,
-        district: farmerDetails.district,
-        pinCode: farmerDetails.pinCode,
-      };
-      formData.append("name", farmerDetails.fullName);
-      formData.append("dob", farmerDetails.dob);
-      formData.append("email", farmerDetails.email);
-      formData.append("gender", farmerDetails.gender);
-      formData.append("location", JSON.stringify(address));
-      formData.append("aadharNumber", farmerDetails.aadharCardNumber);
-      formData.append("panCardNumber", farmerDetails.panCardNumber);
-      formData.append("phone", farmerDetails.mobileNumber);
-      formData.append("metamaskWalletAddress", farmerDetails.walletAddress);
-      formData.append("aadharImage", farmerDetails.aadharCardImage);
-      formData.append("role", "farmer");
-
-      RegisterFarmer(formData, globalState, navigator);
+      formData.append("name", userDetails.fullName);
+      formData.append("email", userDetails.email);
+      formData.append("location", userDetails.address);
+      formData.append("phone", userDetails.mobileNumber);
+      formData.append("metamaskWalletAddress", userDetails.walletAddress);
+      formData.append("pincode", userDetails.pinCode);
+      // addUser(formData, globalState, navigator);
       console.log(formData);
     }
   };
 
-  const isBtnDisabled = () => {
-    if (
-      farmerDetails.aadharCardImage === "" ||
-      farmerDetails.aadharCardNumber === "" ||
-      farmerDetails.mobileNumber === "" ||
-      farmerDetails.state === "" ||
-      farmerDetails.district === "" ||
-      farmerDetails.pinCode === "" ||
-      farmerDetails.fullName === "" ||
-      farmerDetails.walletAddress === "" ||
-      farmerDetails.dob === "" ||
-      farmerDetails.email === ""
-    )
-      return true;
-
-    return false;
-  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(name, value);
-    if (name === "userPhoto" || name === "aadharCardImage") {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onloadend = () => {
-        console.log(reader.result);
-
-        if (name === "userPhoto") {
-          setPreviewUserPhoto(reader.result);
-        } else if (name === "aadharCardImage") {
-          setPreviewAadhar(reader.result);
-        }
-        setFarmerDetails((prev) => ({
-          ...prev,
-          [name]: file,
-        }));
-      };
-    } else {
-      setFarmerDetails({
-        ...farmerDetails,
-        [name]: value,
-      });
-    }
+    setUserDetails({
+      ...userDetails,
+      [name]: value,
+    });
   };
 
   const handleConnectWallet = async (e) => {
@@ -134,21 +95,21 @@ const RegistrationForm = () => {
     const res = await connectWallet();
     console.log(res);
     if (!res.error) {
-      setFarmerDetails({
-        ...farmerDetails,
+      setUserDetails({
+        ...userDetails,
         ["walletAddress"]: res.message,
       });
-      // setFarmerDetails["walletAddress"] = address
+      // setuserDetails["walletAddress"] = address
       return;
     } else {
       toast(res.message);
     }
   };
   return (
-    <div className="flex  items-center justify-center bg-gray-100 ">
+    <div className="flex  justify-center bg-gray-100 w-3/5 mt-[20px]">
       <div className="bg-white w-full p-[40px] rounded-lg shadow-md ">
         <h2 className="text-xl relative font-semibold text-gray-700 text-center mb-4">
-          Register as Farmer
+          Register as User
         </h2>
 
         <form className="space-y-4">
@@ -160,19 +121,9 @@ const RegistrationForm = () => {
                   id="farmer-name"
                   name="fullName"
                   placeholder="Enter Full Name"
-                  value={farmerDetails.fullName}
+                  value={userDetails.fullName}
                   onChange={handleChange}
                   className="form-input mt-1 mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  required
-                />
-
-                <input
-                  type="data"
-                  name="dob"
-                  placeholder="Enter Date Of Birth"
-                  value={farmerDetails.dob}
-                  onChange={handleChange}
-                  className="form-input mt-1 block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
                 />
               </div>
@@ -181,31 +132,19 @@ const RegistrationForm = () => {
                   type="email"
                   name="email"
                   placeholder="Enter Your Email"
-                  value={farmerDetails.email}
+                  value={userDetails.email}
                   onChange={handleChange}
                   className="form-input mr-[10px] mt-1 block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
                 />
-                <select
-                  id="gender"
-                  name="gender"
-                  value={farmerDetails.gender}
-                  onChange={handleChange}
-                  className="form-input mt-1 p-2 w-full border rounded-md"
-                >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
               </div>
               <div className="flex justify-between mt-[10px]">
                 {/* DropDown Here */}
                 <input
                   type="text"
-                  name="state"
-                  placeholder="State"
-                  value={farmerDetails.state}
+                  name="address"
+                  placeholder="Address"
+                  value={userDetails.address}
                   onChange={handleChange}
                   className="form-input mt-1 mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
@@ -213,79 +152,21 @@ const RegistrationForm = () => {
                 {/* dropdown here instead of text */}
                 <input
                   type="text"
-                  name="district"
-                  placeholder="District"
-                  value={farmerDetails.district}
-                  onChange={handleChange}
-                  className="form-input mt-1 mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  required
-                />
-                <input
-                  type="text"
                   name="pinCode"
                   placeholder="PinCode"
-                  value={farmerDetails.pinCode}
+                  value={userDetails.pinCode}
                   onChange={handleChange}
                   className="form-input mt-1 block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
                 />
               </div>
-              <div className="flex mt-[10px] items-center">
-                <input
-                  type="text"
-                  placeholder="Enter Aadhar Card Number"
-                  name="aadharCardNumber"
-                  onChange={handleChange}
-                  value={farmerDetails.aadharCardNumber}
-                  className="form-input mt-1 mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  required
-                />
-
-                <div className="relative  flex flex-col justify-between items-center ">
-                  <input
-                    type="file"
-                    name="aadharCardImage"
-                    onChange={handleChange}
-                    className="opacity-[0] absolute bottom-[-10px] right-[-100px]"
-                  />
-                  <button
-                    disabled
-                    className="bg-blue-500 text-white h-[50px] w-[100px] px-[4px] py-[2px] rounded-lg"
-                  >
-                    Upload Aadhar
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex mt-[10px] items-center">
-                <input
-                  type="text"
-                  placeholder="Enter Pan Card Number"
-                  name="panCardNumber"
-                  onChange={handleChange}
-                  value={farmerDetails.panCardNumber}
-                  className="form-input mt-1 mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  required
-                />
-              </div>
-
-              {farmerDetails.aadharCardImage && (
-                <img
-                  src={
-                    farmerDetails.aadharCardImage ? previewAadhar : DummyImage
-                  }
-                  alt="aadhar card image"
-                  className="w-[100px] h-[100px] mt-[10px] object-contain mr-[10px]"
-                />
-              )}
-
               <div>
                 <div className="flex items-center justify-between mt-[10px]">
                   <input
                     type="text"
                     name="mobileNumber"
                     placeholder="mobile Number"
-                    value={farmerDetails.mobileNumber}
+                    value={userDetails.mobileNumber}
                     onChange={handleChange}
                     className="form-input mt-1 block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     required
@@ -326,7 +207,7 @@ const RegistrationForm = () => {
                 <input
                   type="text"
                   name="walletAddress"
-                  value={farmerDetails.walletAddress}
+                  value={userDetails.walletAddress}
                   onChange={handleChange}
                   id="contract-address"
                   disabled

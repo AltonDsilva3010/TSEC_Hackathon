@@ -15,7 +15,7 @@ function App() {
         <Outlet />
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

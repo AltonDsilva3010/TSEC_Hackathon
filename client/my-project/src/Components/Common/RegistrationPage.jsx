@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const RegistrationPage = () => {
   return (
-    <div>
+    <div className="flex justify-center ">
       <Outlet />
     </div>
   );

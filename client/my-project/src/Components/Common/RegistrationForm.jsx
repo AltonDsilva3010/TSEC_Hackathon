@@ -12,9 +12,10 @@ const RegistrationForm = () => {
   const [userDetails, setUserDetails] = React.useState({
     fullName: "",
     email: "",
-    phone: "",
+    mobileNumber: "",
     address: "",
     pinCode: "",
+    walletAddress: "",
   });
 
   const [otpVerify, setOtpVerify] = React.useState(true);
@@ -41,27 +42,6 @@ const RegistrationForm = () => {
       toast.error("Enter Mobile Number First ");
     }
   };
-  const submitForm = (e) => {
-    e.preventDefault();
-    if (isBtnDisabled()) {
-      toast("Please Fill Form Completely");
-      return;
-    } else if (!otpVerify) {
-      toast("Please Verify Mobile First");
-      return;
-    } else {
-      // console.log(userDetails)
-      let formData = new FormData();
-      formData.append("name", userDetails.fullName);
-      formData.append("email", userDetails.email);
-      formData.append("location", userDetailsaddress);
-      formData.append("phone", userDetails.mobileNumber);
-      formData.append("metamaskWalletAddress", userDetails.walletAddress);
-      formData.append("pincode", userDetails.pinCode);
-      addUser(formData, globalState, navigator);
-      console.log(formData);
-    }
-  };
 
   const isBtnDisabled = () => {
     if (
@@ -71,11 +51,36 @@ const RegistrationForm = () => {
       userDetails.fullName === "" ||
       userDetails.walletAddress === "" ||
       userDetails.email === ""
-    )
+    ) {
       return true;
+    }
 
     return false;
   };
+  const submitForm = (e) => {
+    e.preventDefault();
+
+    if (isBtnDisabled()) {
+      console.log("Inside submit");
+      toast.error("Please Fill Form Completely");
+      return;
+    } else if (!otpVerify) {
+      toast("Please Verify Mobile First");
+      return;
+    } else {
+      // console.log(userDetails)
+      let formData = new FormData();
+      formData.append("name", userDetails.fullName);
+      formData.append("email", userDetails.email);
+      formData.append("location", userDetails.address);
+      formData.append("phone", userDetails.mobileNumber);
+      formData.append("metamaskWalletAddress", userDetails.walletAddress);
+      formData.append("pincode", userDetails.pinCode);
+      // addUser(formData, globalState, navigator);
+      console.log(formData);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(name, value);
@@ -101,7 +106,7 @@ const RegistrationForm = () => {
     }
   };
   return (
-    <div className="flex  items-center justify-center bg-gray-100 ">
+    <div className="flex  justify-center bg-gray-100 w-3/5 mt-[20px]">
       <div className="bg-white w-full p-[40px] rounded-lg shadow-md ">
         <h2 className="text-xl relative font-semibold text-gray-700 text-center mb-4">
           Register as User

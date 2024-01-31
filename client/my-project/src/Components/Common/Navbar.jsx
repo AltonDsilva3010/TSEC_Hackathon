@@ -1,9 +1,11 @@
 import React from 'react'
+import { ethers } from "ethers";
 import HeroImage from "../../assets/images/HeroImage_1.jpg"
 import Logo from "../../assets/images/logo.jpg"
 import { useSelector , useDispatch} from 'react-redux'
 import {getOwnerAddress, setIsLoggedIn} from "../../ReduxStore/slices/globalStateSlice"
 import {NavLink} from 'react-router-dom'
+import RegistrationABI from "../../contracts/UserRegistration.json";
 import {connectWallet} from '../../utils/functions'
 
 const Navbar = () => {
@@ -11,6 +13,24 @@ const Navbar = () => {
     const isLoggedIn = useSelector(state => state.globlaStateSlice.isLoggedIn)
 
     const dispatch = useDispatch()
+
+    const connectWallets = async (dispatch) => {
+    const ContractAddress = "0x417Bf7C9dc415FEEb693B6FE313d1186C692600F";
+    const ContractABI = RegistrationABI.abi;
+    try {
+        let provider = new ethers.BrowserProvider(window.ethereum);
+        let signer = await provider.getSigner();
+        const contract = new ethers.Contract(ContractAddress, ContractABI, signer);
+        console.log(provider, signer, contract);
+        dispatch(setStateDetails({ provider, signer, contract }));
+
+        const transaction = await contract.getUserBoolean(signer);
+        console.log(transaction);
+        if (transaction == true) dispatch(setIsLoggedIn());
+    } catch (error) {
+        console.log(error);
+    }
+    };
 
     return (
         <div className="none">
@@ -24,11 +44,11 @@ const Navbar = () => {
                     </div>
                     {console.log(isLoggedIn)}
                     {isLoggedIn ? <div>
-                        <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={() => connectWallet(dispatch)}>
+                        <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={(event) => connectWallets(event)}>
                         {address ? address.slice(0,6) + "....." + address.slice(38,42) : "Connect Wallet"}
                         </button>
                     </div> : <div>
-                        <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={() => connectWallet(dispatch)}>
+                        <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={(event) => connectWallets(event)}>
                         {address ? address.slice(0,6) + "....." + address.slice(38,42) : "Connect Wallet"}
                         </button>
                         <NavLink to ='/register' className='font-black hover:custom-button text-xl p-[5px] border-b-2'>

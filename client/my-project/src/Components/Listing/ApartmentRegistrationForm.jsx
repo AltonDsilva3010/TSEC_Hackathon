@@ -17,7 +17,7 @@ const ApartmentRegistrationForm = () => {
     address: "",
     areaSize: "",
     noRooms: "",
-    parking: "",
+    parking: false,
     unit: "",
     description: "",
     price: "",
@@ -51,12 +51,6 @@ const ApartmentRegistrationForm = () => {
   const handleImageChange = (e) => {
     const files = event.target.files;
     const newImagesArray = Array.from(files);
-
-    // Update state with the selected images
-    setLandDetails((prevState) => ({
-      ...prevState,
-      images: [...prevState.images, ...newImagesArray],
-    }));
 
     //Upload to the new image to IPFS
     newImagesArray.map(async (singleImage) => {
@@ -129,15 +123,25 @@ const ApartmentRegistrationForm = () => {
 
       console.log(contract);
       try {
-        const transaction = await contract.mint(
+        const transaction = await contract.mintApt(
           signer,
-          "https://gateway.pinata.cloud/ipfs/QmS397wrvErhY55fEbeMY7PCQXUGi5iiiYSqaLdGRrRh6u"
+          "https://gateway.pinata.cloud/ipfs/QmS397wrvErhY55fEbeMY7PCQXUGi5iiiYSqaLdGRrRh6u",
+          LandDetails.address,
+          LandDetails.areaSize,
+          LandDetails.noRooms,
+          LandDetails.parking,
+          LandDetails.unit,
+          LandDetails.description,
+          LandDetails.images,
+          LandDetails.price
         );
         const receipt = await transaction.wait();
 
-        const num = await contract.getToken();
+        const num = await contract.getTokenApt();
 
         console.log(num)
+
+        console.log(parseInt(num.toString()));
 
         toast.success("Successfully Registered");
         // dispatch(setIsLoggedIn());
@@ -216,7 +220,7 @@ const ApartmentRegistrationForm = () => {
                   <input
                     type="number"
                     id="farmer-name"
-                    name="areaSize"
+                    name="noRooms"
                     placeholder="Enter Number of Rooms"
                     value={LandDetails.noRooms}
                     onChange={handleChange}
@@ -277,25 +281,6 @@ const ApartmentRegistrationForm = () => {
                     onChange={handleImageChange}
                   />
                 </div>
-                {LandDetails.images.length > 0 && (
-                  <div>
-                    <h2>Selected Images:</h2>
-                    <div style={{ display: "flex", flexDirection: "row" }}>
-                      {LandDetails.images.map((image, index) => (
-                        <img
-                          key={index}
-                          src={URL.createObjectURL(image)}
-                          alt={`Preview ${index + 1}`}
-                          style={{
-                            width: "150px",
-                            height: "150px",
-                            marginRight: "10px",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
             <div className="text-center">

@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 export const connectWallet = async (dispatch) => {
-  const ContractAddress = "0x5Ab80351b6FAf4A80c348ebff4f40E9BC5282eAC";
+  const ContractAddress = "0x8EFD908cd0430EA25f60B1aBc2BC4Abf95E84349";
   const ContractABI = RegistrationABI.abi;
   try {
     let provider = new ethers.BrowserProvider(window.ethereum);

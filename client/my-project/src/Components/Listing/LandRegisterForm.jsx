@@ -144,9 +144,13 @@ const LandRegisterForm = () => {
         );
         const receipt = await transaction.wait();
 
+        console.log(receipt)
+
         const num = await contract.getToken();
 
-        console.log(parseInt(num.toString()));
+        console.log(num)
+
+        // console.log(parseInt(num.toString()));
 
         toast.success("Successfully Registered");
         // dispatch(setIsLoggedIn());

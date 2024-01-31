@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsLoggedIn } from "../../ReduxStore/slices/globalStateSlice";
 import registImage from "../../assets/images/register.jpg"
 import Header from "./Header"
+import axios from "axios";
 const RegistrationForm = () => {
   const globalState = useSelector((state) => state.globlaStateSlice);
   console.log("GLOBAL IN REGISTRAION ", globalState);

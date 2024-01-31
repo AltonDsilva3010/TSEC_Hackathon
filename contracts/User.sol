@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.0;
 
 contract UserRegistration {
 
@@ -9,6 +9,7 @@ contract UserRegistration {
         string phone;
         string addressuser;
         uint256 pincode;
+        string role;
         bool isRegistered;
     }
 
@@ -31,6 +32,23 @@ contract UserRegistration {
         newUser.phone = _phone;
         newUser.addressuser = _addressuser;
         newUser.pincode = _pincode;
+        newUser.role = "user";
+        newUser.isRegistered = true;
+
+        emit UserRegistered(msg.sender, _name, _email, _phone, _addressuser, _pincode);
+    }
+
+    function registerAdmin(string memory _name, string memory _email, string memory _phone, string memory _addressuser, uint256 _pincode) external notRegistered {
+        // Perform additional validation if needed
+
+        // Create a new user
+        User storage newUser = users[msg.sender];
+        newUser.name = _name;
+        newUser.email = _email;
+        newUser.phone = _phone;
+        newUser.addressuser = _addressuser;
+        newUser.pincode = _pincode;
+        newUser.role = "admin";
         newUser.isRegistered = true;
 
         emit UserRegistered(msg.sender, _name, _email, _phone, _addressuser, _pincode);
@@ -45,6 +63,10 @@ contract UserRegistration {
 
     function getUserBoolean(address useraddr) external view returns (bool) {
         return users[useraddr].isRegistered;
+    }
+
+    function getUserRole(address useraddr) external view returns(string memory){
+        return users[useraddr].role;
     }
 
 }

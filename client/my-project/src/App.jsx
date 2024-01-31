@@ -7,7 +7,7 @@ function App() {
   const globalState = useSelector(state => state.globlaStateSlice)
   const dispatch = useDispatch()
   React.useEffect(()=>{
-    connectWallet(dispatch , globalState)
+    connectWallet(dispatch)
   },[])
   return (
     <div>

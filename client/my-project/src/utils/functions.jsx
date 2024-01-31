@@ -5,7 +5,7 @@ import { setStateDetails , setIsLoggedIn } from "../ReduxStore/slices/globalStat
 import { useDispatch, useSelector } from "react-redux";
 
 
-export const connectWallet = async (dispatch , globalState) => {
+export const connectWallet = async (dispatch) => {
 
     const ContractAddress = "0xAFd2e7A378862801696F04F7A0a65A9DE7573FFa";
     const ContractABI = RegistrationABI.abi;
@@ -22,9 +22,8 @@ export const connectWallet = async (dispatch , globalState) => {
 
       const transaction = await contract.getUserBoolean(signer);
       console.log(transaction)
-      dispatch(setIsLoggedIn())
-      console.log(globalState)
-
+      if(transaction == true)
+        dispatch(setIsLoggedIn())
       
     } catch (error) {
       console.log(error);

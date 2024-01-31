@@ -2,13 +2,14 @@ import React from 'react'
 import HeroImage from "../../assets/images/HeroImage_1.jpg"
 import Logo from "../../assets/images/logo.jpg"
 import { useSelector , useDispatch} from 'react-redux'
-import {getOwnerAddress} from "../../ReduxStore/slices/globalStateSlice"
+import {getOwnerAddress, setIsLoggedIn} from "../../ReduxStore/slices/globalStateSlice"
 import {NavLink} from 'react-router-dom'
 import {connectWallet} from '../../utils/functions'
 
 const Navbar = () => {
-    const globalState = useSelector(state => state.globlaStateSlice)
     const address = useSelector(state => state.globlaStateSlice.address)
+    const isLoggedIn = useSelector(state => state.globlaStateSlice.isLoggedIn)
+
     const dispatch = useDispatch()
 
     return (
@@ -21,14 +22,19 @@ const Navbar = () => {
                             src={Logo} alt='logo' />
                             <h1 className='font-bold text-2xl'>Estate Chain</h1>
                     </div>
-                    <div>
-                        <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={() => connectWallet(dispatch , globalState)}>
-                        {address ? address.slice(0,10) + "....." + address.slice(38,42) : "Connect Wallet"}
+                    {console.log(isLoggedIn)}
+                    {isLoggedIn ? <div>
+                        <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={() => connectWallet(dispatch)}>
+                        {address ? address.slice(0,6) + "....." + address.slice(38,42) : "Connect Wallet"}
+                        </button>
+                    </div> : <div>
+                        <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={() => connectWallet(dispatch)}>
+                        {address ? address.slice(0,6) + "....." + address.slice(38,42) : "Connect Wallet"}
                         </button>
                         <NavLink to ='/register' className='font-black hover:custom-button text-xl p-[5px] border-b-2'>
                             Register
                         </NavLink>
-                    </div>
+                    </div>}
                 </div>
             </div>
 
@@ -36,14 +42,19 @@ const Navbar = () => {
                 <h3 className='text-[50px] font-bold text-center'>
                     Every Home has Potential <br></br> to inspire
                 </h3>
-                <div className='text-center mt-[20px]'>
+                {isLoggedIn ? <div className='text-center mt-[20px]'>
                     <button className='custom-button mr-[10px]'>
                         {address ? address.slice(0,10) + "....." + address.slice(38,42) : "Connect Wallet"}
                     </button>
-                    <button className='custom-button'>
-                    Register
-                    </button>
-                </div>
+                </div> : 
+                <div className='text-center mt-[20px]'>
+                <button className='custom-button mr-[10px]'>
+                    {address ? address.slice(0,10) + "....." + address.slice(38,42) : "Connect Wallet"}
+                </button>
+                <button className='custom-button'>
+                Register
+                </button>
+            </div>}
             </div>
         </div>
     )

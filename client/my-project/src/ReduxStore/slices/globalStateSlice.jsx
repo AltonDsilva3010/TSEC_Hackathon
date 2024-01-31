@@ -25,7 +25,7 @@ export const globalStateSlice = createSlice({
         },
         setIsLoggedIn : (state,action)=>{
             state.isLoggedIn = true
-            console.log(state)
+            console.log("LOG",state)
         }
     }
 })

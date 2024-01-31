@@ -8,7 +8,7 @@ import { routers } from "./utils/routes.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 const router = createBrowserRouter(routers);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

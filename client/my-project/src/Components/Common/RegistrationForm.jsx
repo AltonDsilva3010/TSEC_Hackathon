@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { addUser } from "../../Apis/UserApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsLoggedIn } from "../../ReduxStore/slices/globalStateSlice";
+import registImage from "../../assets/images/register.jpg"
+import Header from "./Header"
 const RegistrationForm = () => {
   const globalState = useSelector((state) => state.globlaStateSlice);
   console.log("GLOBAL IN REGISTRAION ", globalState);
@@ -119,10 +121,13 @@ const RegistrationForm = () => {
     }
   };
   return (
-    <div className="flex  justify-center bg-gray-100 w-3/5 mt-[20px]">
-      <div className="bg-white w-full p-[40px] rounded-lg shadow-md ">
+    <div className="w-[100%] h-[100%]">
+      <Header/>
+    <div className="flex justify-center bg-gray-100 w-[90%] h-[500px] m-auto mt-[80px]">
+      <div class="w-[60%] bg-cover" style={{backgroundImage: `url(${registImage})`}}></div>
+      <div className="bg-white w-[40%] p-[40px] rounded-lg shadow-md ">
         <h2 className="text-xl relative font-semibold text-gray-700 text-center mb-4">
-          Register as User
+          Register
         </h2>
 
         <form className="space-y-4">
@@ -136,7 +141,7 @@ const RegistrationForm = () => {
                   placeholder="Enter Full Name"
                   value={userDetails.fullName}
                   onChange={handleChange}
-                  className="form-input mt-1 mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                  className="form-input mt-1 mr-[10px] block indent-1.5 w-full h-[40px] border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
                 />
               </div>
@@ -147,7 +152,7 @@ const RegistrationForm = () => {
                   placeholder="Enter Your Email"
                   value={userDetails.email}
                   onChange={handleChange}
-                  className="form-input mr-[10px] mt-1 block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                  className="form-input mr-[10px] mt-1 block indent-1.5 w-full h-[40px] border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
                 />
               </div>
@@ -159,7 +164,7 @@ const RegistrationForm = () => {
                   placeholder="Address"
                   value={userDetails.address}
                   onChange={handleChange}
-                  className="form-input mt-1 mr-[10px] block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                  className="form-input mt-1 mr-[10px] indent-1.5 block w-full h-[40px] border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
                 />
                 {/* dropdown here instead of text */}
@@ -169,7 +174,7 @@ const RegistrationForm = () => {
                   placeholder="PinCode"
                   value={userDetails.pinCode}
                   onChange={handleChange}
-                  className="form-input mt-1 block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                  className="form-input mt-1 indent-1.5 block w-full border rounded-md h-[40px] border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
                 />
               </div>
@@ -178,10 +183,10 @@ const RegistrationForm = () => {
                   <input
                     type="text"
                     name="mobileNumber"
-                    placeholder="mobile Number"
+                    placeholder="Mobile Number"
                     value={userDetails.mobileNumber}
                     onChange={handleChange}
-                    className="form-input mt-1 block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                    className="form-input indent-1.5 mt-1 block w-full border rounded-md h-[40px] border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     required
                   />
                   {/* <button
@@ -239,7 +244,7 @@ const RegistrationForm = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
+              className="bg-blue-500 text-white px-4 py-2 rounded-full w-full h-[40px] hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
               onClick={submitForm}
             >
               Register
@@ -247,6 +252,7 @@ const RegistrationForm = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };

@@ -1,11 +1,14 @@
 import { useState } from 'react'
-
-
+import { Outlet } from "react-router-dom"
+import Navbar from './Components/Common/Navbar'
 function App() {
 
   return (
     <div>
-      HEllo
+      <div>
+        <Navbar />
+        <Outlet />
+      </div>
     </div>
   )
 }

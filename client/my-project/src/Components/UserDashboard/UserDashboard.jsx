@@ -1,11 +1,17 @@
 import React from 'react'
+import Header from '../Common/Header'
 
-const userDashboard = () => {
+const UserDashboard = () => {
   return (
     <div>
-      
+      <Header/>
+      <div>
+        <div>
+          
+        </div>
+      </div>
     </div>
   )
 }
 
-export default userDashboard
+export default UserDashboard

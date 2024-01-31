@@ -1,6 +1,6 @@
 import App from "../App";
 import HomePage from "../Components/HomePage/HomePage";
-import userDashboard from "../Components/UserDashboard/UserDashboard";
+import UserDashboard from "../Components/UserDashboard/UserDashboard";
 import RegistrationForm from "../Components/Common/RegistrationForm";
 import RegistrationPage from "../Components/Common/RegistrationPage";
 import ListingPage from "../Components/Listing/ListingPage";

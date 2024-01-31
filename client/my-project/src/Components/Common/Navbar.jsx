@@ -3,6 +3,7 @@ import HeroImage from "../../assets/images/HeroImage_1.jpg"
 import Logo from "../../assets/images/logo.jpg"
 import { useSelector } from 'react-redux'
 import {getOwnerAddress} from "../../ReduxStore/slices/globalStateSlice"
+import {NavLink} from 'react-router-dom'
 
 const Navbar = () => {
 
@@ -22,9 +23,9 @@ const Navbar = () => {
                         <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2'>
                         {address ? address.slice(0,10) + "....." + address.slice(38,42) : "Connect Wallet"}
                         </button>
-                        <button className='font-black hover:custom-button text-xl p-[5px] border-b-2'>
+                        <NavLink to ='/register' className='font-black hover:custom-button text-xl p-[5px] border-b-2'>
                             Register
-                        </button>
+                        </NavLink>
                     </div>
                 </div>
             </div>

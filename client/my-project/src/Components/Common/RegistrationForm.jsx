@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { addUser } from "../../Apis/UserApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsLoggedIn } from "../../ReduxStore/slices/globalStateSlice";
+import axios from "axios"
+
 const RegistrationForm = () => {
   const globalState = useSelector((state) => state.globlaStateSlice);
   console.log("GLOBAL IN REGISTRAION ", globalState);
@@ -18,7 +20,7 @@ const RegistrationForm = () => {
     pinCode: "",
   });
 
-  const [otpVerify, setOtpVerify] = React.useState(true);
+  const [otpVerify, setOtpVerify] = React.useState(false);
   const [otp, setOtp] = React.useState("");
 
   const handleOTP = (e) => {
@@ -26,18 +28,60 @@ const RegistrationForm = () => {
     console.log(e.target.value);
     setOtp(e.target.value);
   };
+  const sendOTP = (phoneNumber)=>{
+    axios.post("http://localhost:3001/send-otp" , {phoneNumber})
+    .then(res => {
+      if(res.data.success){
+        toast.success("OTP sent Successfully")
+      }else{
+        toast.error("Failed to send OTP")
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      toast.error("Failed To send Otp")
+    })
+  }
 
+  const verifyOTP = (obj)=>{
+    axios.post("http://localhost:3001/verify-otp" , obj)
+    .then(res => {
+      if(res.data.success){
+        toast.success("OTP verified Successfully")
+      }else{
+        toast.error("Invalid OTP")
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      toast.error("Error verifying OTP")
+    })
+  }
   const handleOtpSubmit = (e) => {
     e.preventDefault();
     // check whether entered otp is correct or not
     // set is mobile Verify
+    if(otp === ""){
+      toast.error("Enter OTP first")
+      return
+    }
+    console.log(otp)
+    const obj = {
+      "phoneNumber" : userDetails.mobileNumber,
+      "otp" : otp
+    }
+    verifyOTP(obj)
     setOtpVerify(true);
   };
+
+
+
   const handleOtpVerificationBtnClick = (e) => {
     e.preventDefault();
     console.log(userDetails.mobileNumber);
     if (userDetails.mobileNumber != "") {
       setOtpVerify((prev) => !prev);
+      sendOTP(userDetails.mobileNumber)
     } else {
       toast.error("Enter Mobile Number First ");
     }
@@ -184,14 +228,14 @@ const RegistrationForm = () => {
                     className="form-input mt-1 block w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     required
                   />
-                  {/* <button
+                  <button
                     className="bg-blue-500 text-white rounded-md ml-[10px] h-full"
                     onClick={handleOtpVerificationBtnClick}
                   >
                     Verify Number
-                  </button> */}
+                  </button>
                 </div>
-                {/* {otpVerify && (
+                {otpVerify && (
                   <div className="flex justify-between items-center mt-[10px]">
                     <input
                       type="text"
@@ -208,7 +252,7 @@ const RegistrationForm = () => {
                       Submit
                     </button>
                   </div>
-                )} */}
+                )}
               </div>
               {/* <div>
                 <label

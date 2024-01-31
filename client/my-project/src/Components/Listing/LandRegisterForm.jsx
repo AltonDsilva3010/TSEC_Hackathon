@@ -17,10 +17,8 @@ const LandRegisterForm = () => {
     unit: "",
     description: "",
     price: "",
-    images: [],
+    images: "",
   });
-
-  const [IPFSHashes, setIPFSHashes] = useState([]);
 
   const isBtnDisabled = () => {
     if (
@@ -51,10 +49,10 @@ const LandRegisterForm = () => {
     const newImagesArray = Array.from(files);
 
     // Update state with the selected images
-    setLandDetails((prevState) => ({
-      ...prevState,
-      images: [...prevState.images, ...newImagesArray],
-    }));
+    // setLandDetails((prevState) => ({
+    //   ...prevState,
+    //   images: [...prevState.images, ...newImagesArray],
+    // }));
 
     //Upload to the new image to IPFS
     newImagesArray.map(async (singleImage) => {
@@ -79,8 +77,9 @@ const LandRegisterForm = () => {
         });
 
         ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
-        setIPFSHashes((prevHashes) => [...prevHashes, ImgHash]);
+        // setIPFSHashes((prevHashes) => [...prevHashes, ImgHash]);
         console.log(ImgHash);
+        LandDetails.images = ImgHash;
       } catch (error) {
         console.log(error);
         console.log("Unable to Upload the Image");
@@ -102,13 +101,11 @@ const LandRegisterForm = () => {
       formData.append("areaSize", LandDetails.areaSize);
       formData.append("description", LandDetails.description);
       formData.append("price", LandDetails.price);
-      formData.append("images", IPFSHashes);
+      formData.append("images", LandDetails.images);
       // addUser(formData, globalState, navigator);
       console.log(LandDetails);
       const { contract } = globalState;
       const { signer } = globalState;
-
-      LandDetails.images = IPFSHashes;
 
       const data = JSON.stringify({
         pinataContent: {
@@ -135,7 +132,13 @@ const LandRegisterForm = () => {
       try {
         const transaction = await contract.mint(
           signer,
-          `https://gateway.pinata.cloud/ipfs/${response.data.IPFSHashes}`
+          "felf",
+          LandDetails.address,
+          LandDetails.areaSize,
+          LandDetails.unit,
+          LandDetails.description,
+          LandDetails.images,
+          LandDetails.price
         );
         const receipt = await transaction.wait();
 
@@ -238,7 +241,7 @@ const LandRegisterForm = () => {
                   onChange={handleImageChange}
                 />
               </div>
-              {LandDetails.images.length > 0 && (
+              {/* {LandDetails.images.length > 0 && (
                 <div>
                   <h2>Selected Images:</h2>
                   <div style={{ display: "flex", flexDirection: "row" }}>
@@ -256,7 +259,7 @@ const LandRegisterForm = () => {
                     ))}
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
           <div className="text-center">

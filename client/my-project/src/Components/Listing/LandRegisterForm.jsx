@@ -114,23 +114,11 @@ const LandRegisterForm = () => {
           "https://gateway.pinata.cloud/ipfs/QmS397wrvErhY55fEbeMY7PCQXUGi5iiiYSqaLdGRrRh6u"
         );
         const receipt = await transaction.wait();
+        
+        const num = await contract.getToken();
 
-        // Check if events property exists
-        if (receipt.events) {
-          // Extracting tokenId from the event logs
-          const event = receipt.events.find(
-            (event) => event.event === "TokenMinted"
-          );
-
-          if (event) {
-            const tokenId = event.args.tokenId.toNumber();
-            console.log("Token ID:", tokenId);
-          } else {
-            console.error("Event 'TokenMinted' not found in receipt");
-          }
-        } else {
-          console.error("No events in receipt");
-        }
+        console.log(num)
+        
         toast.success("Successfully Registered");
         // dispatch(setIsLoggedIn());
       } catch (error) {

@@ -36,21 +36,24 @@ contract UserRegistration is ERC721URIStorage {
         _;
     }
 
-     uint256 tokenId ;
+    uint256 tokenId;
+    uint[] tokenArray = [0];
+
     constructor() ERC721("PropertyItem", "PI") {
         tokenId = 0;
     }
 
-    function mint(
-        address _to,
-        string calldata _uri
-    ) external { //returns (uint256)
+    function mint(address _to, string calldata _uri) external {
+        //returns (uint256)
         tokenId = tokenId + 1;
         _mint(_to, tokenId);
         _setTokenURI(tokenId, _uri);
+        tokenArray.push(tokenId);
         // return tokenId;
+    }
 
-        emit Minted(_to, tokenId, _uri);
+    function getToken() public view returns (uint256) {
+        return tokenArray[tokenArray.length - 1];
     }
 
     function registerUser(

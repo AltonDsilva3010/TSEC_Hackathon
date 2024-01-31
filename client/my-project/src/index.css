@@ -3,6 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto";
+  scroll-behavior: smooth;
+}
 @layer components {
   .custom-button {
     background-color: black;
@@ -20,6 +27,6 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0px -200px;
-    font-family: "Roboto";
+    
   }
 }

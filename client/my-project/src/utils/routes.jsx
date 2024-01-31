@@ -1,6 +1,6 @@
 import App from "../App";
 import  HomePage from "../Components/HomePage/HomePage";
-import userDashboard from "../Components/UserDashboard/UserDashboard";
+import UserDashboard from "../Components/UserDashboard/UserDashboard";
 import RegistrationForm from "../Components/Common/RegistrationForm";
 import RegistrationPage from "../Components/Common/RegistrationPage";
 export const routers = [
@@ -13,7 +13,7 @@ export const routers = [
     },
     {
       path : "/user/dashboard",
-      element : <userDashboard/>
+      element : <UserDashboard/>
     }
   ]
   },{

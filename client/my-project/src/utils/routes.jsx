@@ -1,5 +1,5 @@
 import App from "../App";
-import { HomePage } from "../Components/HomePage/HomePage";
+import  HomePage from "../Components/HomePage/HomePage";
 export const routers = [
   {
     path: "/",

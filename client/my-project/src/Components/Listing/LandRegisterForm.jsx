@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { connectWallettoLand } from "../../utils/functions";
 
 const LandRegisterForm = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const { provider, signer, contractland } = connectWallettoLand(dispatch);
+  }, []);
+
+  const globalState = useSelector((state) => state.globlaStateSlice);
+  console.log("GLOBAL IN REGISTRAION ", globalState);
   const [LandDetails, setLandDetails] = React.useState({
     address: "",
     areaSize: "",
@@ -80,7 +89,7 @@ const LandRegisterForm = () => {
     });
   };
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
 
     if (isBtnDisabled()) {
@@ -97,6 +106,22 @@ const LandRegisterForm = () => {
       formData.append("images", IPFSHashes);
       // addUser(formData, globalState, navigator);
       console.log(LandDetails);
+      const { contract } = globalState;
+      const { signer } = globalState;
+      console.log(contract);
+      try {
+        const transaction = await contractland.mint(
+          signer,
+          "https://gateway.pinata.cloud/ipfs/QmS397wrvErhY55fEbeMY7PCQXUGi5iiiYSqaLdGRrRh6u"
+        );
+        const rc = await transaction.wait();
+        console.log("RC", rc);
+        toast.success("Successfully Registered");
+        // dispatch(setIsLoggedIn());
+      } catch (error) {
+        toast.error("Something Went Wrong . Please Try Again ");
+        console.log(error);
+      }
     }
   };
 

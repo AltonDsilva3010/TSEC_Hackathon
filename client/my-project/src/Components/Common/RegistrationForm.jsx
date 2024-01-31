@@ -4,11 +4,11 @@ import { connectWallet } from "../../utils/functions";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../../Apis/UserApi";
 import { useDispatch, useSelector } from "react-redux";
-
+import { setIsLoggedIn } from "../../ReduxStore/slices/globalStateSlice";
 const RegistrationForm = () => {
   const globalState = useSelector((state) => state.globlaStateSlice);
-  // console.log("GLOBAL IN REGISTRAION ", globalState);
-
+  console.log("GLOBAL IN REGISTRAION ", globalState);
+  const dispatch = useDispatch()
   const navigator = useNavigate();
   const [userDetails, setUserDetails] = React.useState({
     fullName: "",
@@ -79,8 +79,17 @@ const RegistrationForm = () => {
 
       const {contract} = globalState
       const {signer} = globalState
-      const transaction = await contract.registerAdmin(userDetails.fullName , userDetails.email , userDetails.mobileNumber , userDetails.address  ,  signer , userDetails.pinCode);
+      console.log(contract)
+      try {
+        const transaction = await contract.registerUser(userDetails.fullName , userDetails.email , userDetails.mobileNumber , userDetails.address  , userDetails.pinCode);
       const rc = await transaction.wait();
+      console.log("RC",rc)
+      toast.success("Successfully Registered")
+      dispatch(setIsLoggedIn())
+      } catch (error) {
+        toast.error("Something Went Wrong . Please Try Again ")
+      }
+      
       // addUser(formData, globalState, navigator);
     }
   };

@@ -18,26 +18,46 @@ export const routers = [
         path: "/user/dashboard",
         element: <userDashboard />,
       },
-    ],
-  },
-  {
-    path: "/register",
-    element: <RegistrationPage />,
-    children: [
       {
-        index: true,
-        element: <RegistrationForm />,
+        path: "/register",
+        element: <RegistrationPage />,
+        children: [
+          {
+            index: true,
+            element: <RegistrationForm />,
+          },
+        ],
+      },
+      {
+        path: "/listing",
+        element: <ListingPage />,
+        children: [
+          {
+            index: true,
+            element: <LandRegisterForm />,
+          },
+        ],
       },
     ],
   },
-  {
-    path: "/listing",
-    element: <ListingPage />,
-    children: [
-      {
-        index: true,
-        element: <LandRegisterForm />,
-      },
-    ],
-  },
+  // {
+  //   path: "/register",
+  //   element: <RegistrationPage />,
+  //   children: [
+  //     {
+  //       index: true,
+  //       element: <RegistrationForm />,
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: "/listing",
+  //   element: <ListingPage />,
+  //   children: [
+  //     {
+  //       index: true,
+  //       element: <LandRegisterForm />,
+  //     },
+  //   ],
+  // },
 ];

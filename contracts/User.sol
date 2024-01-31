@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract UserRegistration {
+contract UserRegistration is ERC721URIStorage {
     struct User {
         string name;
         string email;
@@ -32,6 +33,21 @@ contract UserRegistration {
     modifier notRegistered() {
         require(!users[msg.sender].isRegistered, "User is already registered");
         _;
+    }
+
+     uint256 tokenId ;
+    constructor() ERC721("PropertyItem", "PI") {
+        tokenId = 0;
+    }
+
+    function mint(
+        address _to,
+        string calldata _uri
+    ) external returns (uint256){
+        tokenId = tokenId + 1;
+        _mint(_to, tokenId);
+        _setTokenURI(tokenId, _uri);
+        return tokenId;
     }
 
     function registerUser(

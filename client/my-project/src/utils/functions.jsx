@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 export const connectWallet = async (dispatch) => {
-  const ContractAddress = "0xeD22e0a3BBCDd3B7A783EA2e80e401eeD61fF109";
+  const ContractAddress = "0x6acb49cdc584b5c9f4059E0Cb51d0716bA7c0D8B";
   const ContractABI = RegistrationABI.abi;
   try {
     let provider = new ethers.BrowserProvider(window.ethereum);
@@ -26,7 +26,7 @@ export const connectWallet = async (dispatch) => {
 };
 
 export const connectWallettoLand = async (dispatch) => {
-  const ContractAddress = "0xB8C7F1bB3014102AED9EB78146e16Ba6fD573A29";
+  const ContractAddress = "0x6acb49cdc584b5c9f4059E0Cb51d0716bA7c0D8B";
   const ContractABI = PropertyABI.abi;
   try {
     let provider = new ethers.BrowserProvider(window.ethereum);

@@ -6,9 +6,9 @@ import { connectWallettoLand } from "../../utils/functions";
 
 const LandRegisterForm = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    const { provider, signer, contractland } = connectWallettoLand(dispatch);
-  }, []);
+  //   useEffect(() => {
+  //     const { provider, signer, contractland } = connectWallettoLand(dispatch);
+  //   }, []);
 
   const globalState = useSelector((state) => state.globlaStateSlice);
   console.log("GLOBAL IN REGISTRAION ", globalState);
@@ -110,7 +110,7 @@ const LandRegisterForm = () => {
       const { signer } = globalState;
       console.log(contract);
       try {
-        const transaction = await contractland.mint(
+        const transaction = await contract.mint(
           signer,
           "https://gateway.pinata.cloud/ipfs/QmS397wrvErhY55fEbeMY7PCQXUGi5iiiYSqaLdGRrRh6u"
         );

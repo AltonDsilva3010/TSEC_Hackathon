@@ -8,7 +8,7 @@ import { setIsLoggedIn } from "../../ReduxStore/slices/globalStateSlice";
 const RegistrationForm = () => {
   const globalState = useSelector((state) => state.globlaStateSlice);
   console.log("GLOBAL IN REGISTRAION ", globalState);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigator = useNavigate();
   const [userDetails, setUserDetails] = React.useState({
     fullName: "",
@@ -77,19 +77,25 @@ const RegistrationForm = () => {
       formData.append("metamaskWalletAddress", userDetails.walletAddress);
       formData.append("pincode", userDetails.pinCode);
 
-      const {contract} = globalState
-      const {signer} = globalState
-      console.log(contract)
+      const { contract } = globalState;
+      const { signer } = globalState;
+      console.log(contract);
       try {
-        const transaction = await contract.registerUser(userDetails.fullName , userDetails.email , userDetails.mobileNumber , userDetails.address  , userDetails.pinCode);
-      const rc = await transaction.wait();
-      console.log("RC",rc)
-      toast.success("Successfully Registered")
-      dispatch(setIsLoggedIn())
+        const transaction = await contract.registerUser(
+          userDetails.fullName,
+          userDetails.email,
+          userDetails.mobileNumber,
+          userDetails.address,
+          userDetails.pinCode
+        );
+        const rc = await transaction.wait();
+        console.log("RC", rc);
+        toast.success("Successfully Registered");
+        dispatch(setIsLoggedIn());
       } catch (error) {
-        toast.error("Something Went Wrong . Please Try Again ")
+        toast.error("Something Went Wrong . Please Try Again ");
       }
-      
+
       // addUser(formData, globalState, navigator);
     }
   };

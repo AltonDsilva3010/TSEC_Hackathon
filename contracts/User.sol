@@ -29,6 +29,7 @@ contract UserRegistration is ERC721URIStorage {
         string addressuser,
         uint256 pincode
     );
+    event Minted(address indexed to, uint256 indexed tokenId, string uri);
 
     modifier notRegistered() {
         require(!users[msg.sender].isRegistered, "User is already registered");
@@ -43,11 +44,13 @@ contract UserRegistration is ERC721URIStorage {
     function mint(
         address _to,
         string calldata _uri
-    ) external returns (uint256){
+    ) external { //returns (uint256)
         tokenId = tokenId + 1;
         _mint(_to, tokenId);
         _setTokenURI(tokenId, _uri);
-        return tokenId;
+        // return tokenId;
+
+        emit Minted(_to, tokenId, _uri);
     }
 
     function registerUser(

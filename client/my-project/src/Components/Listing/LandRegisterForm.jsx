@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { connectWallettoLand } from "../../utils/functions";
 
 const LandRegisterForm = () => {
   const dispatch = useDispatch();
@@ -114,8 +113,24 @@ const LandRegisterForm = () => {
           signer,
           "https://gateway.pinata.cloud/ipfs/QmS397wrvErhY55fEbeMY7PCQXUGi5iiiYSqaLdGRrRh6u"
         );
-        const rc = await transaction.wait();
-        console.log("RC", rc);
+        const receipt = await transaction.wait();
+
+        // Check if events property exists
+        if (receipt.events) {
+          // Extracting tokenId from the event logs
+          const event = receipt.events.find(
+            (event) => event.event === "TokenMinted"
+          );
+
+          if (event) {
+            const tokenId = event.args.tokenId.toNumber();
+            console.log("Token ID:", tokenId);
+          } else {
+            console.error("Event 'TokenMinted' not found in receipt");
+          }
+        } else {
+          console.error("No events in receipt");
+        }
         toast.success("Successfully Registered");
         // dispatch(setIsLoggedIn());
       } catch (error) {

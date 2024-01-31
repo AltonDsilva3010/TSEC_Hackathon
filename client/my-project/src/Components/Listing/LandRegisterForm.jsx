@@ -107,18 +107,42 @@ const LandRegisterForm = () => {
       console.log(LandDetails);
       const { contract } = globalState;
       const { signer } = globalState;
-      console.log(contract);
+
+      LandDetails.images = IPFSHashes;
+
+      const data = JSON.stringify({
+        pinataContent: {
+          LandDetails,
+        },
+        pinataMetadata: {
+          name: "metadata.json",
+        },
+      });
+
+      const response = await axios({
+        method: "post",
+        url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+        data,
+        headers: {
+          pinata_api_key: "403a4001d5cc63b3ce0f",
+          pinata_secret_api_key:
+            "cd44bc63c6fdbabc149ce19412cc7c049d2ee4e5477ce8e9f824ef323a8a0c30",
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log(response);
       try {
         const transaction = await contract.mint(
           signer,
-          "https://gateway.pinata.cloud/ipfs/QmS397wrvErhY55fEbeMY7PCQXUGi5iiiYSqaLdGRrRh6u"
+          `https://gateway.pinata.cloud/ipfs/${response.data.IPFSHashes}`
         );
         const receipt = await transaction.wait();
-        
+
         const num = await contract.getToken();
 
-        console.log(num)
-        
+        console.log(parseInt(num.toString()));
+
         toast.success("Successfully Registered");
         // dispatch(setIsLoggedIn());
       } catch (error) {

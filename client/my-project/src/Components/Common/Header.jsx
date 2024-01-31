@@ -1,11 +1,12 @@
 import React from 'react'
 import Logo from "../../assets/images/logo.jpg"
 import { useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 const Header = () => {
     const address = useSelector(state => state.globlaStateSlice.address)
     return (
-        <div>
-            <div className='p-[15px] bg-slate-100 shadow-lg w-full leading-3'>
+        <NavLink to={"/"}>
+            <div className='p-[15px] bg-slate-50 shadow-lg w-full leading-3'>
                 <div className='flex justify-between items-center w-[85%] m-auto'>
                     <div className='flex items-center ml-[10] '>
                         <img
@@ -23,7 +24,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </NavLink>
     )
 }
 

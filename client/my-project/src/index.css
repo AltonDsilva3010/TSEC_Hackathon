@@ -20,10 +20,25 @@
     padding: 15px;
   }
 
+  .custom-border-button{
+    
+    border-radius: 10px;
+    padding: 8px;
+    border: 2px solid black;
+    padding: 15px;
+  }
+
+  .customBadgeCSS{
+    border: 2px solid rgba(111, 0, 191, 0.674);
+    padding: 8px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
   .none {
     background-image: url("./assets/images/HeroImage_1.jpg");
     overflow: none;
-    height: 600px;
+    height: 550px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0px -200px;

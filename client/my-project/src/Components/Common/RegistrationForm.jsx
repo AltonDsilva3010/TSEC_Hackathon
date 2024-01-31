@@ -147,7 +147,7 @@ const RegistrationForm = () => {
                   placeholder="Enter Full Name"
                   value={userDetails.fullName}
                   onChange={handleChange}
-                  className="form-input mt-1 mr-[10px] block indent-1.5 w-full h-[40px] border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                  className="form-input mt-1 mr-[10px] block indent-1.5 h-[40px] w-full border rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
                 />
               </div>

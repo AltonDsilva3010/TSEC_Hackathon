@@ -6,6 +6,7 @@ import RegistrationPage from "../Components/Common/RegistrationPage";
 import ListingPage from "../Components/Listing/ListingPage";
 import LandRegisterForm from "../Components/Listing/LandRegisterForm";
 import ApartmentRegistrationForm from "../Components/Listing/ApartmentRegistrationForm";
+import DisplayPropertyPage from "../Components/Common/DisplayPropertyPage";
 export const routers = [
   {
     path: "/",
@@ -48,6 +49,10 @@ export const routers = [
             element: <ApartmentRegistrationForm />,
           },
         ],
+      },
+      {
+        path: "/property/:id",
+        element: <DisplayPropertyPage/>,
       },
     ],
   },

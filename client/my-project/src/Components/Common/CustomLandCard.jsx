@@ -2,18 +2,18 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 const CustomLandCard = ({ land }) => {
-  const { property_name, amount, area_size, description,propertyType, nearbySurroundings, state, pincode, address, images } = land;
+  const {id , address, amount, area_size, description,propertyType, nearbySurroundings, state, pincode, images } = land;
   return (
     
       <NavLink 
-        to={"/property/123"}
+        to={`/property/${id}`}
         className="max-w-sm mx-auto mb-8">
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <img className="h-48 w-full object-cover" src={images[0]} alt={property_name} />
+          <img className="h-48 w-full object-cover" src={images[0]}  />
           <div className="p-6">
-            <div className="text-xl leading-tight font-semibold">{property_name}</div>
+            <div className="text-xl leading-tight font-semibold">{address}</div>
             <div className='flex justify-between items-center'>
-              <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{propertyType}</div>
+              <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Land</div>
               <span className='text-black customBadgeCSS'>{amount} ETH</span>
             </div>
             <p className="mt-2 text-gray-500">{description}</p>

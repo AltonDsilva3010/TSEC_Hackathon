@@ -1,20 +1,23 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+
 const CustomAppartmentCard = ({ apartment }) => {
-    const { locationName, amount,propertyType, description, generalInformation, areaSize, no_of_rooms, no_of_bathrooms, images } = apartment;
+    const { id ,address, amount,propertyType, description, generalInformation, areaSize, no_of_rooms, no_of_bathrooms, images } = apartment;
     console.log(apartment) 
+
     return (
         <NavLink 
-        to={"/property/123"}
+        to={`/property/${id}`}
         className="max-w-sm mx-auto mb-8">
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                <img className="h-48 w-full object-cover" src={images[0]} alt={locationName} />
+                <img className="h-48 w-full object-cover" src={images[0]} />
                 <div className="p-6">
                     <div className='flex justify-between items-center'>
                         <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{propertyType}</div>
                         <span className='text-black customBadgeCSS'>{amount} ETH</span>
                     </div>
-                    <div className="mt-2 text-xl leading-tight font-semibold">{locationName}</div>
+                    <div className="mt-2 text-xl leading-tight font-semibold">{address}</div>
                     <p className="mt-2 text-gray-500">{description}</p>
                     {/* <div className="mt-4">
             <p><span className="font-semibold">Area Size:</span> {areaSize}</p>

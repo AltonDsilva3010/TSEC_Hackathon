@@ -47,6 +47,12 @@ const Navbar = () => {
                         <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={(event) => connectWallets(event)}>
                         {address ? address.slice(0,6) + "....." + address.slice(38,42) : "Connect Wallet"}
                         </button>
+                        <NavLink to ='/listing' className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={(event) => connectWallets(event)}>
+                        Sell Land
+                        </NavLink>
+                        <NavLink to ='/listingapt' className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={(event) => connectWallets(event)}>
+                        Sell Apartment
+                        </NavLink>
                     </div> : <div>
                         <button className='font-black hover:custom-button text-xl p-[5px] mr-[30px] border-b-2' onClick={(event) => connectWallets(event)}>
                         {address ? address.slice(0,6) + "....." + address.slice(38,42) : "Connect Wallet"}
@@ -71,9 +77,9 @@ const Navbar = () => {
                 <button className='custom-button mr-[10px]'>
                     {address ? address.slice(0,10) + "....." + address.slice(38,42) : "Connect Wallet"}
                 </button>
-                <button className='custom-button'>
+                <NavLink to ='/register' className='custom-button'>
                 Register
-                </button>
+                </NavLink>
             </div>}
             </div>
         </div>

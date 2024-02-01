@@ -21,7 +21,7 @@ const RegistrationForm = () => {
     pinCode: "",
   });
 
-  const [otpVerify, setOtpVerify] = React.useState(false);
+  const [otpVerify, setOtpVerify] = React.useState(true);
   const [otp, setOtp] = React.useState("");
 
   const handleOTP = (e) => {

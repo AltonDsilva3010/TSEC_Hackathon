@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import LandImage from "../../assets/images/landImages.jpg"
 import RoomImage from "../../assets/images/RoomImage.jpg"
 import Bath from "../../assets/Bath.png"
+import { useDispatch, useSelector } from "react-redux";
 import Room from "../../assets/Room.png"
 import AreaSize from "../../assets/AreaSize.png"
 import { Carousel } from 'react-responsive-carousel';
@@ -11,7 +12,8 @@ import Header from './Header'
 import Footer from './Footer'
 const DisplayPropertyPage = () => {
     let { id } = useParams();
-
+  const globalState = useSelector((state) => state.globlaStateSlice);
+  console.log("GLOBAL IN REGISTRAION ", globalState);
     const [apartment, setDetails] = React.useState({
         locationName: "Suburban Apartment",
         propertyType: "Apartment",
@@ -20,8 +22,7 @@ const DisplayPropertyPage = () => {
         areaSize: "1200 sqft", // Added areaSize field
         no_of_rooms: 3,
         address: "123 Farm Road",
-        no_of_bathrooms: 2,
-        images: [RoomImage,LandImage]
+        images: null
       })
 
     const images = apartment.images?.map((i) => {
@@ -29,9 +30,46 @@ const DisplayPropertyPage = () => {
             <img src={i} className='h-[500px] w-full object-obtain' />
         )
     })
+
+    const {isLoggedIn }= globalState;
     React.useEffect(() => {
-        // contract call for getting data
-    }, [])
+        const getData = async () => {
+      
+          const {contract} = globalState;
+
+          console.log("Contract : " , contract)
+
+          try{
+          const transaction = await contract.getAllListingsDetails(id)
+          console.log(transaction)
+          return transaction;
+        }
+          catch (error){
+            console.log(error)
+          }
+          
+      }
+
+      getData().then((data) => {
+        console.log(data.length)
+        console.log(data[0])
+            var i = 0;
+          let obj = {
+            id : data[i][0],
+            locationName : data[1],
+            areaSize : data[2] + data[3],
+            description : data[4],
+            images : [data[5]],
+            amount : parseInt(data[6]),
+            no_of_rooms : data[8],
+            parkSpace : data[9]
+          }
+
+        setDetails(obj)
+        
+        console.log(obj)
+      })
+    }, [isLoggedIn])
     return (
         <div>
             <Header />

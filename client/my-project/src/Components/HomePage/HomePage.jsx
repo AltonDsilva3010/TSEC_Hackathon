@@ -9,14 +9,98 @@ import PlusIcon from "../../assets/plusIcon.svg"
 import CustomAppartmentCard from '../Common/CustomAppartmentCard'
 import CustomLandCard from '../Common/CustomLandCard'
 import Footer from '../Common/Footer'
+import { dataLength } from 'ethers'
 const HomePage = () => {
 
   const isAuth = useSelector(state => state.globlaStateSlice.address)
   const [propertyData,setAppartMentAddress] = React.useState(apartmentData)
   const [landPropertyData,setLandPropertyData] = React.useState(landProperty)
+  const globalState = useSelector((state) => state.globlaStateSlice);
+  console.log("GLOBAL IN REGISTRAION ", globalState);
+  const isLoggedIn = useSelector(state => state.globlaStateSlice.isLoggedIn)
+
+
   React.useEffect(()=>{
-    // add code here
-  },[])
+
+      const getData = async () => {
+      
+          const {contract} = globalState;
+
+          console.log("Contract : " , contract)
+
+          try{
+          const transaction = await contract.getAllListingsApt()
+          return transaction;
+        }
+          catch (error){
+            console.log(error)
+          }
+          
+      }
+
+      getData().then((data) => {
+        console.log(data.length)
+        console.log(data[0].length)
+        const newArray = [];
+        for(var i = 0 ; i < data.length ; i++){
+          let obj = {
+            id : data[i][0],
+            address : data[i][1],
+            areaSize : data[i][2] + data[i][3],
+            description : data[i][4],
+            images : [data[i][5]],
+            amount : parseInt(data[i][6]),
+            no_of_rooms : data[i][8],
+            parkSpace : data[i][9]
+          }
+
+          newArray.push(obj)
+        }
+
+        setAppartMentAddress(newArray);
+
+        console.log(propertyData)
+        
+      })
+
+      const getLandData = async () => {
+      
+          const {contract} = globalState;
+
+          console.log("Contract : " , contract)
+
+          try{
+          const transaction = await contract.getAllListingsApt()
+          console.log(transaction)
+          return transaction;
+        }
+          catch (error){
+            console.log(error)
+          }
+          
+      }
+
+      getLandData().then((data) => {
+        console.log(data.length)
+        console.log(data[0].length)
+        const newArray = [];
+        for(var i = 0 ; i < data.length ; i++){
+          let obj = {
+            id : data[i][0],
+            address : data[i][1],
+            area_size : data[i][2] + data[i][3],
+            description : data[i][4],
+            images : [data[i][5]],
+            amount : parseInt(data[i][6]),
+          }
+
+          newArray.push(obj)
+        }
+
+        setLandPropertyData(newArray);
+        
+      })
+  },[isLoggedIn])
 
   const handleAppProperty = (e)=>{
     if(!isAuth){

@@ -150,7 +150,7 @@ const LandRegisterForm = () => {
 
         console.log(num)
 
-        // console.log(parseInt(num.toString()));
+        console.log(parseInt(num.toString()));
 
         toast.success("Successfully Registered");
         // dispatch(setIsLoggedIn());
